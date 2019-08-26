@@ -1,0 +1,52 @@
+import requests
+import urllib.request
+from bs4 import BeautifulSoup
+
+from flask import Flask, render_template, request, jsonify
+
+app = Flask(__name__)
+
+course_name = ''
+course_number = ''
+
+class_type = []
+class_days = []
+class_startTime = []
+class_endTime = []
+
+lecture_days = []
+lecture_startTime = []
+lecture_endTime = []
+
+def parser():
+    url = "https://courses.students.ubc.ca/cs/courseschedule?pname=subjarea&tname=subj-course&dept=CPSC&course=110"
+    print("url: ", url)
+    response = requests.get(url)
+    soup = BeautifulSoup(response.text, "html.parser")
+    section1 = soup.findAll('tr', class_='section1')
+    section2 = soup.findAll('tr', class_='section2')
+
+    for i in range(len(section1)):
+        section1_tdList = section1[i].findAll('td')
+        class_type.append(section1_tdList[2].getText())
+        class_days.append(section1_tdList[5].getText().split())
+        class_startTime.append(section1_tdList[6].getText())
+        class_endTime.append(section1_tdList[7].getText())
+
+        if section1_tdList[2].getText() == "Lecture":
+            lecture_days.append(section1_tdList[5].getText().split())
+            lecture_startTime.append(section1_tdList[6].getText())
+            lecture_endTime.append(section1_tdList[7].getText())
+
+@app.route("/")
+def index():
+    return render_template("index.html")
+
+@app.route("/table", methods=["POST"])
+def table():
+    course_name = request.form.get("course_name")
+    course_number = request.form.get("course_number")
+    parser()
+    return jsonify({"success": True, "lecture_days": lecture_days, "lecture_startTime": lecture_startTime})
+
+    # return jsonify({"success": True})
