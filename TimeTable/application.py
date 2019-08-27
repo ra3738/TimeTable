@@ -20,7 +20,6 @@ lecture_endTime = []
 
 def parser():
     url = "https://courses.students.ubc.ca/cs/courseschedule?pname=subjarea&tname=subj-course&dept=CPSC&course=110"
-    print("url: ", url)
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     section1 = soup.findAll('tr', class_='section1')

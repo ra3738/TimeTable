@@ -21,8 +21,39 @@ map.set("17:00", 16);
 map.set("17:30", 17);
 map.set("18:00", 18);
 
-let lecture_days = [];
-let lecture_startTime = [];
+var lecture_days = [];
+var lecture_startTime = [];
+var timeDifference = 2;
+var baseCell;
+var removedElements = [];
+var table_;
+
+function color(){
+  for (i = 0; i < lecture_days[timetable_number].length; i++){
+    const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
+    common_time = map.get(lecture_startTime[timetable_number]);
+    demoClass[common_time].style.backgroundColor= "lightgrey";
+    demoClass[common_time].rowSpan = timeDifference;
+    // removedElements.push(demoClass[common_time+1]);
+    demoClass[common_time+1].remove(demoClass[common_time+1]);
+    // console.log(removedElements);
+  }
+}
+
+function decolor(){
+  // for (i = 0; i < lecture_days[timetable_number].length; i++){
+  //   const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
+  //   common_time = map.get(lecture_startTime[timetable_number]);
+  //   demoClass[common_time].style.backgroundColor= "white";
+  //   // demoClass[common_time].rowSpan = 1;
+  //   // demoClass[common_time+1].add(removedElements[0]);
+  // }
+  const demoClass = document.getElementById('table');
+  demoClass.remove(demoClass);
+  var start_ = document.getElementById('start');
+  console.log(table_);
+  start_.appendChild(table_)
+}
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,14 +69,12 @@ document.addEventListener('DOMContentLoaded', () => {
         lecture_days = data.lecture_days;
         lecture_startTime = data.lecture_startTime
 
-        console.log(data.success);
+        console.log(lecture_startTime);
+        var original_table = document.getElementById('table');
+        table_ = original_table;
+        console.log(table_);
 
-        for (i = 0; i < lecture_days[timetable_number].length; i++){
-          const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
-          common_time = map.get(lecture_startTime[timetable_number]);
-          demoClass[common_time].style.backgroundColor= "lightgrey";
-          demoClass[common_time].rowSpan = "2";
-        }
+        color();
     }
 
     const data = new FormData();
@@ -60,19 +89,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#next').onclick = () => {
-    for (i = 0; i < lecture_days[timetable_number].length; i++){
-      const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
-      common_time = map.get(lecture_startTime[timetable_number]);
-      demoClass[common_time].style.backgroundColor= "white";
-    }
-
-    timetable_number++;
-
-    for (i = 0; i < lecture_days[timetable_number].length; i++){
-      const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
-      common_time = map.get(lecture_startTime[timetable_number]);
-      demoClass[common_time].style.backgroundColor= "lightgrey";
-    }
-
+    decolor();
+    // timetable_number++;
+    // color();
   };
 });
