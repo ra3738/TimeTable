@@ -6,8 +6,8 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-course_name = ''
-course_number = ''
+course_name = ""
+course_number = ""
 
 class_type = []
 class_days = []
@@ -19,7 +19,25 @@ lecture_startTime = []
 lecture_endTime = []
 
 def parser():
-    url = "https://courses.students.ubc.ca/cs/courseschedule?pname=subjarea&tname=subj-course&dept=CPSC&course=110"
+    # global class_type
+    # class_type = []
+    # global class_days
+    # class_days = []
+    # global class_startTime
+    # class_startTime = []
+    # global class_endTime
+    # class_endTime = []
+
+    global lecture_days
+    lecture_days = []
+    global lecture_startTime
+    lecture_startTime = []
+    global lecture_endTime
+    lecture_endTime = []
+
+    url = "https://courses.students.ubc.ca/cs/courseschedule?pname=subjarea&tname=subj-course&dept=" + course_name + "&course=" + course_number
+    print("url: ", url)
+
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     section1 = soup.findAll('tr', class_='section1')
@@ -43,7 +61,9 @@ def index():
 
 @app.route("/table", methods=["POST"])
 def table():
+    global course_name
     course_name = request.form.get("course_name")
+    global course_number
     course_number = request.form.get("course_number")
     parser()
     return jsonify({"success": True, "lecture_days": lecture_days, "lecture_startTime": lecture_startTime})

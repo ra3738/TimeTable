@@ -26,16 +26,20 @@ var lecture_startTime = [];
 var timeDifference = 2;
 var baseCell;
 var removedElements = [];
-var table_;
+var table_1;
+var table_2;
+// var _course_name;
+// var _course_number;
 
 function color(){
   for (i = 0; i < lecture_days[timetable_number].length; i++){
     const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
     common_time = map.get(lecture_startTime[timetable_number]);
     demoClass[common_time].style.backgroundColor= "lightgrey";
-    demoClass[common_time].rowSpan = timeDifference;
+    // demoClass[common_time].rowSpan = timeDifference;
+    demoClass[common_time].innerHTML = ""
+    // demoClass[common_time+1].remove(demoClass[common_time+1]);
     // removedElements.push(demoClass[common_time+1]);
-    demoClass[common_time+1].remove(demoClass[common_time+1]);
     // console.log(removedElements);
   }
 }
@@ -51,8 +55,9 @@ function decolor(){
   const demoClass = document.getElementById('table');
   demoClass.remove(demoClass);
   var start_ = document.getElementById('start');
-  console.log(table_);
-  start_.appendChild(table_)
+  table_1 = table_2.cloneNode(true);
+  console.log(table_1);
+  start_.appendChild(table_1);
 }
 
 
@@ -61,6 +66,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const request = new XMLHttpRequest();
     request.open('POST', '/table');
+
+    const _course_name = document.getElementById('course_name').value;
+    console.log("course_name: " + _course_name);
+
+    const _course_number = document.getElementById('course_number').value;
+    console.log("course_number: " + _course_number);
 
     request.onload = () => {
 
@@ -71,14 +82,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         console.log(lecture_startTime);
         var original_table = document.getElementById('table');
-        table_ = original_table;
-        console.log(table_);
+        table_1 = original_table.cloneNode(true);
+        table_2 = original_table.cloneNode(true);
+        console.log(table_1);
 
         color();
     }
 
     const data = new FormData();
-    // data.append('currency', currency);
+    data.append('course_number', _course_number);
+    data.append('course_name', _course_name)
 
     // Send request
     request.send(data);
@@ -90,7 +103,7 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#next').onclick = () => {
     decolor();
-    // timetable_number++;
-    // color();
+    timetable_number++;
+    color();
   };
 });
