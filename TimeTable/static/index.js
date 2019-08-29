@@ -1,4 +1,4 @@
-let timetable_number = 0;
+var timetable_number;
 
 let map = new Map();
 map.set("9:00", 0);
@@ -20,6 +20,11 @@ map.set("16:30", 15);
 map.set("17:00", 16);
 map.set("17:30", 17);
 map.set("18:00", 18);
+map.set("18:30", 19);
+map.set("19:00", 20);
+map.set("19:30", 21);
+map.set("20:00", 22)
+
 
 var lecture_days = [];
 var lecture_startTime = [];
@@ -28,17 +33,24 @@ var baseCell;
 var removedElements = [];
 var table_1;
 var table_2;
-// var _course_name;
-// var _course_number;
+var course_name = "";
+var course_number = "";
 
 function color(){
   for (i = 0; i < lecture_days[timetable_number].length; i++){
     const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
     common_time = map.get(lecture_startTime[timetable_number]);
     demoClass[common_time].style.backgroundColor= "lightgrey";
-    // demoClass[common_time].rowSpan = timeDifference;
-    demoClass[common_time].innerHTML = ""
-    // demoClass[common_time+1].remove(demoClass[common_time+1]);
+    // timeDifference = lengthOfTimeDiff(i);
+    demoClass[common_time].rowSpan = timeDifference;
+    demoClass[common_time].innerHTML = course_name + " " + course_number;
+    // while (timeDifference > 1){
+    demoClass[common_time+1].remove(demoClass[common_time+1]);
+    //   timeDifference--;
+    // }
+    console.log("common_time: " + common_time);
+
+    // ------------------
     // removedElements.push(demoClass[common_time+1]);
     // console.log(removedElements);
   }
@@ -60,6 +72,12 @@ function decolor(){
   start_.appendChild(table_1);
 }
 
+// function lengthOfTimeDiff(i){
+//   const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
+//   startTime = map.get(lecture_startTime[timetable_number]);
+//   endTime = map.get(lecture_endTime[timetable_number]);
+//   return ( (endTime - startTime)/2 + ((endTime - startTime)%2) );
+// }
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#form').onsubmit = () => {
@@ -67,11 +85,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const request = new XMLHttpRequest();
     request.open('POST', '/table');
 
-    const _course_name = document.getElementById('course_name').value;
+    var _course_name = document.getElementById('course_name').value;
+    course_name = _course_name;
     console.log("course_name: " + _course_name);
 
-    const _course_number = document.getElementById('course_number').value;
+    var _course_number = document.getElementById('course_number').value;
+    course_number = _course_number;
     console.log("course_number: " + _course_number);
+
+    timetable_number = 0
 
     request.onload = () => {
 

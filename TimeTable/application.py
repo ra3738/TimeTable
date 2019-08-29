@@ -36,8 +36,6 @@ def parser():
     lecture_endTime = []
 
     url = "https://courses.students.ubc.ca/cs/courseschedule?pname=subjarea&tname=subj-course&dept=" + course_name + "&course=" + course_number
-    print("url: ", url)
-
     response = requests.get(url)
     soup = BeautifulSoup(response.text, "html.parser")
     section1 = soup.findAll('tr', class_='section1')
@@ -66,6 +64,6 @@ def table():
     global course_number
     course_number = request.form.get("course_number")
     parser()
-    return jsonify({"success": True, "lecture_days": lecture_days, "lecture_startTime": lecture_startTime})
+    return jsonify({"lecture_days": lecture_days, "lecture_startTime": lecture_startTime, "lecture_endTime": lecture_endTime})
 
     # return jsonify({"success": True})
