@@ -40,6 +40,7 @@ function color(){
   for (i = 0; i < lecture_days[timetable_number].length; i++){
     const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
     common_time = map.get(lecture_startTime[timetable_number]);
+    console.log(common_time);
     demoClass[common_time].style.backgroundColor= "lightgrey";
     // timeDifference = lengthOfTimeDiff(i);
     demoClass[common_time].rowSpan = timeDifference;
@@ -49,6 +50,24 @@ function color(){
     //   timeDifference--;
     // }
     console.log("common_time: " + common_time);
+
+
+    var printText = document.getElementById("row_9:00");
+    var printText1 = printText.getElementsByTagName("td");
+    var i = 0;
+    while (i < printText1.length){
+      var class_name = printText1[i].className;
+      class_name = class_name.split(" ");
+      console.log(class_name[1]);
+
+      if (class_name[1] === ("Tue")){
+        printText1[i].innerHTML = "RANDOM";
+        break;
+      }
+
+      i++
+    }
+    // printText2.innerHTML = "TEST_DATA";
 
     // ------------------
     // removedElements.push(demoClass[common_time+1]);
