@@ -25,7 +25,6 @@ map.set("19:00", 20);
 map.set("19:30", 21);
 map.set("20:00", 22)
 
-
 var lecture_days = [];
 var lecture_startTime = [];
 var timeDifference = 2;
