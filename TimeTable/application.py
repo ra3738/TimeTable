@@ -67,6 +67,7 @@ def table():
     # parser()
     lecture_days = [["Mon", "Wed", "Fri"], ["Mon", "Wed", "Fri"], ["Tue", "Thu"]]
     lecture_startTime = ["11:00", "13:00", "15:00"]
+    lecture_endTime = ["12:00", "13:30", "16:30"]
 
     return jsonify({"lecture_days": lecture_days, "lecture_startTime": lecture_startTime, "lecture_endTime": lecture_endTime})
 

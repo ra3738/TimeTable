@@ -52,7 +52,8 @@ reverseMap.set(22, "20:00")
 
 var lecture_days = [];
 var lecture_startTime = [];
-var timeDifference = 2;
+var lecture_endTime = [];
+var timeDifference;
 var baseCell;
 var removedElements = [];
 var table_1;
@@ -65,6 +66,7 @@ function color(){
     var timing = document.getElementById(lecture_startTime[timetable_number]);
     var td_list = timing.getElementsByTagName("td");
     var j = td_list.length-1;
+    timeDifference = lengthOfTimeDiff();
     while (j > 0){
       var class_name = td_list[j].className;
       class_name = class_name.split(" ");
@@ -83,13 +85,14 @@ function color(){
 // Assumes all inputs are valid and no overlapping classes
 function removeElements(j){
   var timing = lecture_startTime[timetable_number];
+  console.log("timeDiff: " + timeDifference);
   var timeDiff = timeDifference-1;
   console.log("Removed Element");
   while(timeDiff > 0){
     var common_time = map.get(timing);
     common_time = common_time + timeDiff;
-    var timing = document.getElementById(reverseMap.get(common_time));
-    var td_list = timing.getElementsByTagName("td");
+    var timing2 = document.getElementById(reverseMap.get(common_time));
+    var td_list = timing2.getElementsByTagName("td");
     td_list[j].remove(td_list[j]);
     timeDiff--;
   }
@@ -104,16 +107,14 @@ function decolor(){
   start_.appendChild(table_1);
 }
 
-// function lengthOfTimeDiff(i){
-//   const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
-//   startTime = map.get(lecture_startTime[timetable_number]);
-//   endTime = map.get(lecture_endTime[timetable_number]);
-//   return ( (endTime - startTime)/2 + ((endTime - startTime)%2) );
-// }
+function lengthOfTimeDiff(){
+  startTime = map.get(lecture_startTime[timetable_number]);
+  endTime = map.get(lecture_endTime[timetable_number]);
+  return endTime-startTime;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#form').onsubmit = () => {
-
     const request = new XMLHttpRequest();
     request.open('POST', '/table');
 
@@ -128,11 +129,11 @@ document.addEventListener('DOMContentLoaded', () => {
     timetable_number = 0
 
     request.onload = () => {
-
         // Extract JSON data from request
         const data = JSON.parse(request.responseText);
         lecture_days = data.lecture_days;
-        lecture_startTime = data.lecture_startTime
+        lecture_startTime = data.lecture_startTime;
+        lecture_endTime = data.lecture_endTime;
 
         console.log(lecture_startTime);
         var original_table = document.getElementById('table');
