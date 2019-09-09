@@ -62,38 +62,29 @@ var course_name = "";
 var course_number = "";
 
 function color(){
-  for (i = lecture_days[timetable_number].length-1; i >= 0; i--){
+  for (i = 0; i < lecture_days[timetable_number].length; i++){
     var timing = document.getElementById(lecture_startTime[timetable_number]);
-    var td_list = timing.getElementsByTagName("td");
-    var j = td_list.length-1;
+    var displayClass = "."+lecture_days[timetable_number][i];
     timeDifference = lengthOfTimeDiff();
-    while (j > 0){
-      var class_name = td_list[j].className;
-      class_name = class_name.split(" ");
-      if (class_name[1] === lecture_days[timetable_number][i]){
-        td_list[j].style.backgroundColor= "lightgrey";
-        td_list[j].rowSpan = timeDifference;
-        td_list[j].innerHTML = course_name + " " + course_number;
-        removeElements(j);
-        break;
-      }
-      j--;
-    }
+    var cell = timing.querySelector(displayClass);
+    cell.style.backgroundColor= "lightgrey";
+    cell.rowSpan = timeDifference;
+    cell.innerHTML = course_name + " " + course_number;
+    removeElements(i);
   }
 }
 
 // Assumes all inputs are valid and no overlapping classes
-function removeElements(j){
+function removeElements(i){
   var timing = lecture_startTime[timetable_number];
-  console.log("timeDiff: " + timeDifference);
   var timeDiff = timeDifference-1;
-  console.log("Removed Element");
   while(timeDiff > 0){
     var common_time = map.get(timing);
     common_time = common_time + timeDiff;
     var timing2 = document.getElementById(reverseMap.get(common_time));
-    var td_list = timing2.getElementsByTagName("td");
-    td_list[j].remove(td_list[j]);
+    var displayClass = "."+lecture_days[timetable_number][i];
+    var cell = timing2.querySelector(displayClass);
+    cell.remove(cell);
     timeDiff--;
   }
 }
