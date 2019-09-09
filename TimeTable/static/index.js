@@ -23,11 +23,37 @@ map.set("18:00", 18);
 map.set("18:30", 19);
 map.set("19:00", 20);
 map.set("19:30", 21);
-map.set("20:00", 22)
+map.set("20:00", 22);
+
+let reverseMap = new Map();
+reverseMap.set(0, "9:00");
+reverseMap.set(1, "9:30");
+reverseMap.set(2, "10:00");
+reverseMap.set(3, "10:30");
+reverseMap.set(4, "11:00");
+reverseMap.set(5, "11:30");
+reverseMap.set(6, "12:00");
+reverseMap.set(7, "12:30");
+reverseMap.set(8, "13:00");
+reverseMap.set(9, "13:30");
+reverseMap.set(10, "14:00");
+reverseMap.set(11, "14:30");
+reverseMap.set(12, "15:00");
+reverseMap.set(13, "15:30");
+reverseMap.set(14, "16:00");
+reverseMap.set(15, "16:30");
+reverseMap.set(16, "17:00");
+reverseMap.set(17, "17:30");
+reverseMap.set(18, "18:00");
+reverseMap.set(19, "18:30");
+reverseMap.set(20, "19:00");
+reverseMap.set(21, "19:30");
+reverseMap.set(22, "20:00")
 
 var lecture_days = [];
 var lecture_startTime = [];
-var timeDifference = 2;
+var lecture_endTime = [];
+var timeDifference;
 var baseCell;
 var removedElements = [];
 var table_1;
@@ -37,32 +63,33 @@ var course_number = "";
 
 function color(){
   for (i = 0; i < lecture_days[timetable_number].length; i++){
-    const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
-    common_time = map.get(lecture_startTime[timetable_number]);
-    demoClass[common_time].style.backgroundColor= "lightgrey";
-    // timeDifference = lengthOfTimeDiff(i);
-    demoClass[common_time].rowSpan = timeDifference;
-    demoClass[common_time].innerHTML = course_name + " " + course_number;
-    // while (timeDifference > 1){
-    demoClass[common_time+1].remove(demoClass[common_time+1]);
-    //   timeDifference--;
-    // }
-    console.log("common_time: " + common_time);
+    var timing = document.getElementById(lecture_startTime[timetable_number]);
+    var displayClass = "."+lecture_days[timetable_number][i];
+    timeDifference = lengthOfTimeDiff();
+    var cell = timing.querySelector(displayClass);
+    cell.style.backgroundColor= "lightgrey";
+    cell.rowSpan = timeDifference;
+    cell.innerHTML = course_name + " " + course_number;
+    removeElements(i);
+  }
+}
 
-    // ------------------
-    // removedElements.push(demoClass[common_time+1]);
-    // console.log(removedElements);
+// Assumes all inputs are valid and no overlapping classes
+function removeElements(i){
+  var timing = lecture_startTime[timetable_number];
+  var timeDiff = timeDifference-1;
+  while(timeDiff > 0){
+    var common_time = map.get(timing);
+    common_time = common_time + timeDiff;
+    var timing2 = document.getElementById(reverseMap.get(common_time));
+    var displayClass = "."+lecture_days[timetable_number][i];
+    var cell = timing2.querySelector(displayClass);
+    cell.remove(cell);
+    timeDiff--;
   }
 }
 
 function decolor(){
-  // for (i = 0; i < lecture_days[timetable_number].length; i++){
-  //   const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
-  //   common_time = map.get(lecture_startTime[timetable_number]);
-  //   demoClass[common_time].style.backgroundColor= "white";
-  //   // demoClass[common_time].rowSpan = 1;
-  //   // demoClass[common_time+1].add(removedElements[0]);
-  // }
   const demoClass = document.getElementById('table');
   demoClass.remove(demoClass);
   var start_ = document.getElementById('start');
@@ -71,16 +98,14 @@ function decolor(){
   start_.appendChild(table_1);
 }
 
-// function lengthOfTimeDiff(i){
-//   const demoClass = document.getElementsByClassName(lecture_days[timetable_number][i]);
-//   startTime = map.get(lecture_startTime[timetable_number]);
-//   endTime = map.get(lecture_endTime[timetable_number]);
-//   return ( (endTime - startTime)/2 + ((endTime - startTime)%2) );
-// }
+function lengthOfTimeDiff(){
+  startTime = map.get(lecture_startTime[timetable_number]);
+  endTime = map.get(lecture_endTime[timetable_number]);
+  return endTime-startTime;
+}
 
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#form').onsubmit = () => {
-
     const request = new XMLHttpRequest();
     request.open('POST', '/table');
 
@@ -95,11 +120,11 @@ document.addEventListener('DOMContentLoaded', () => {
     timetable_number = 0
 
     request.onload = () => {
-
         // Extract JSON data from request
         const data = JSON.parse(request.responseText);
         lecture_days = data.lecture_days;
-        lecture_startTime = data.lecture_startTime
+        lecture_startTime = data.lecture_startTime;
+        lecture_endTime = data.lecture_endTime;
 
         console.log(lecture_startTime);
         var original_table = document.getElementById('table');
