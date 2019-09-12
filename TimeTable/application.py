@@ -31,7 +31,10 @@ secondSchedule_days = []
 secondSchedule_startTime = []
 secondSchedule_endTime = []
 
-def filter():
+def isThereConflict(i, j):
+    return False
+
+def filterOut():
     global firstSchedule_days
     global firstSchedule_startTime
     global firstSchedule_endTime
@@ -44,26 +47,42 @@ def filter():
         firstSchedule_days = secondSchedule_days
         firstSchedule_startTime = secondSchedule_startTime
         firstSchedule_endTime = secondSchedule_endTime
+        print("firstSchedule_days: ")
+        print(firstSchedule_days)
         return
 
     temp_days = []
     temp_startTime = []
     temp_endTime = []
 
+    print("Second Line")
+    print("firstSchedule_days: ")
+    print(firstSchedule_days)
+    print(secondSchedule_days)
+    # print("secondSchedule_days: "+secondSchedule_days)
+
     for i in range(len(firstSchedule_days)):
         for j in range(len(secondSchedule_days)):
             if not isThereConflict(i, j):
+                print("Entered If")
                 temp_days.append(firstSchedule_days[i])
                 temp_startTime.append(firstSchedule_startTime[i])
                 temp_endTime.append(firstSchedule_endTime[i])
                 index = len(temp_days)-1
+
+                print(temp_days)
+                print(temp_startTime)
+                print(temp_endTime)
+
                 temp_days[index].append(secondSchedule_days[j])
                 temp_startTime[index].append(secondSchedule_startTime[j])
                 temp_endTime[index].append(secondSchedule_endTime[j])
+    #
+    # firstSchedule_days = temp_days
+    # print("firstSchedule_days: "+firstSchedule_startTime)
+    # firstSchedule_startTime = temp_startTime
+    # firstSchedule_endTime = temp_endTime
 
-    firstSchedule_days = temp_days
-    firstSchedule_startTime = temp_startTime
-    firstSchedule_endTime = temp_endTime
 
 
 def parser():
@@ -105,6 +124,8 @@ def parser():
     secondSchedule_startTime = lecture_startTime
     secondSchedule_endTime = lecture_endTime
 
+    print("ABC")
+
     # list_days.append(lecture_days)
     # list_startTime.append(lecture_startTime)
     # list_endTime.append(lecture_endTime)
@@ -122,6 +143,7 @@ def table():
     course_number = request.form.get("course_number")
 
     parser()
+    filterOut()
     # lecture_days = [["Mon", "Wed", "Fri"], ["Mon", "Wed", "Fri"], ["Tue", "Thu"]]
     # lecture_startTime = ["11:00", "13:00", "15:00"]
     # lecture_endTime = ["12:00", "13:30", "16:30"]
