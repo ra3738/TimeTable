@@ -43,45 +43,84 @@ def filterOut():
     global secondSchedule_startTime
     global secondSchedule_endTime
 
+    # if not firstSchedule_days:
+    #     firstSchedule_days = secondSchedule_days
+    #     firstSchedule_startTime = secondSchedule_startTime
+    #     firstSchedule_endTime = secondSchedule_endTime
+    #     print("firstSchedule_days: ")
+    #     print(firstSchedule_days)
+    #     return
+
     if not firstSchedule_days:
-        firstSchedule_days = secondSchedule_days
-        firstSchedule_startTime = secondSchedule_startTime
-        firstSchedule_endTime = secondSchedule_endTime
+        for i in range(len(secondSchedule_days)):
+            firstSchedule_days.append([secondSchedule_days[i]])
+            firstSchedule_startTime.append([secondSchedule_startTime[i]])
+            firstSchedule_endTime.append([secondSchedule_endTime[i]])
+            print("!!!!!!!!!!!!")
+
+        print(" ")
         print("firstSchedule_days: ")
         print(firstSchedule_days)
+        print(" ")
         return
 
     temp_days = []
     temp_startTime = []
     temp_endTime = []
 
-    print("Second Line")
     print("firstSchedule_days: ")
     print(firstSchedule_days)
+    print("secondSchedule_days: ")
     print(secondSchedule_days)
     # print("secondSchedule_days: "+secondSchedule_days)
 
+    print(len(firstSchedule_days))
+    print(len(secondSchedule_days))
+
     for i in range(len(firstSchedule_days)):
         for j in range(len(secondSchedule_days)):
-            if not isThereConflict(i, j):
-                print("Entered If")
-                temp_days.append(firstSchedule_days[i])
-                temp_startTime.append(firstSchedule_startTime[i])
-                temp_endTime.append(firstSchedule_endTime[i])
-                index = len(temp_days)-1
+            # if not isThereConflict(i, j):
+            daysToAppend = firstSchedule_days[i].copy()
+            temp_days.append(daysToAppend)
+            startTimeToAppend = firstSchedule_startTime[i].copy()
+            temp_startTime.append(startTimeToAppend)
+            endTimeToAppend = firstSchedule_endTime.copy()
+            temp_endTime.append(endTimeToAppend)
+            index = len(temp_days)-1
+            temp_days[index].append(secondSchedule_days[j])
+            temp_startTime[index].append(secondSchedule_startTime[j])
+            temp_endTime[index].append(secondSchedule_endTime[j])
 
-                print(temp_days)
-                print(temp_startTime)
-                print(temp_endTime)
+            print(" ")
+            # print(temp_days)
+            # print(temp_startTime[index])
+            print(temp_startTime)
+            # print(secondSchedule_startTime[j])
+            # print(temp_endTime)
 
-                temp_days[index].append(secondSchedule_days[j])
-                temp_startTime[index].append(secondSchedule_startTime[j])
-                temp_endTime[index].append(secondSchedule_endTime[j])
+    # for i in range(len(firstSchedule_days)):
+    #     for j in range(len(secondSchedule_days)):
+    #         if not isThereConflict(i, j):
+    #             print("Entered If")
+    #             temp_days.append([firstSchedule_days[i]])
+    #             temp_startTime.append([firstSchedule_startTime[i]])
+    #             temp_endTime.append([firstSchedule_endTime[i]])
+    #             index = len(temp_days)-1
+    #             temp_days[index].append(secondSchedule_days[j])
+    #             temp_startTime[index].append(secondSchedule_startTime[j])
+    #             temp_endTime[index].append(secondSchedule_endTime[j])
     #
-    # firstSchedule_days = temp_days
+    #             print(" ")
+    #             print(temp_days)
+    #             print(temp_startTime)
+    #             print(temp_endTime)
+    #             print(" ")
+    #
+
+    firstSchedule_days = temp_days
     # print("firstSchedule_days: "+firstSchedule_startTime)
-    # firstSchedule_startTime = temp_startTime
-    # firstSchedule_endTime = temp_endTime
+    firstSchedule_startTime = temp_startTime
+    firstSchedule_endTime = temp_endTime
 
 
 
