@@ -234,22 +234,28 @@
       </tr>
     </table>
     <br>
+    <b>Select a Term</b>
+    <br>
+    <input type="radio" id="term1" name="term">Term 1
+    <input type="radio" id="term2" name="term">Term 2
+    <br><br>
     <!-- <form action="{{ url_for('table') }}" method="post"> -->
     <form id="form">
-      <b>Adding Courses</b>
+      <b>Adding Courses To List</b>
       <br>
       <input value="CPSC" id="course_name" name="course_name" autocomplete="off" autofocus placeholder="Course Name e.g CPSC" type="text">
       <input id="course_number" name="course_number" autocomplete="off" autofocus placeholder="Course No. e.g 101" type="text">
       <input type="submit" value="Add">
     </form>
+    <ul id="myUL">
+    </ul>
     <button id ="submitCourses">Submit</button>
     <!-- <button id="next" type="button" style="float: right;">Next</button>
     <button id="previous" type="button" style="float: right;">Previous</button> -->
     <br><br>
     <button id="previous" type="button">Previous</button>
     <button id="next" type="button">Next</button>
-    <ul id="myUL">
-    </ul>
+
 
   </body>
 </html>

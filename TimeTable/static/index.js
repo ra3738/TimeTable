@@ -68,6 +68,13 @@ document.addEventListener('DOMContentLoaded', () => {
     course_number = _course_number;
     console.log("course_number: " + _course_number);
 
+    var academicTerm;
+    if (document.getElementById('term1').checked){
+      academicTerm = 1;
+    } else {
+      academicTerm = 2;
+    }
+
     timetable_number = 0
 
     var li = document.createElement("li");
@@ -97,6 +104,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const data = new FormData();
     data.append('course_number', _course_number);
     data.append('course_name', _course_name)
+    data.append('academicTerm', academicTerm)
 
     // Send request
     request.send(data);

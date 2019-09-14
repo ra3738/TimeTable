@@ -6,11 +6,11 @@ from flask import Flask, render_template, request, jsonify
 
 app = Flask(__name__)
 
-map = {"9:00": 0, "9:30": 1, "10:00": 2, "10:30": 3, "11:00": 4, "11:30": 5, "12:00": 6, "12:30": 7, "13:00": 8, "13:30": 9, "14:00": 10, "14:30": 11,
-       "15:00": 12, "15:30": 13, "16:00": 14, "16:30": 15, "17:00": 16, "17:30": 17, "18:00": 18, "18:30": 19, "19:00": 20, "19:30": 21, "20:00": 22}
+map = {"8:00": 0, "8:30": 1, "9:00": 2, "9:30": 3, "10:00": 4, "10:30": 5, "11:00": 6, "11:30": 7, "12:00": 8, "12:30": 9, "13:00": 10, "13:30": 11, "14:00": 12, "14:30": 13,
+       "15:00": 14, "15:30": 15, "16:00": 16, "16:30": 17, "17:00": 18, "17:30": 19, "18:00": 20, "18:30": 21, "19:00": 22, "19:30": 23, "20:00": 24, "20:30": 25, "21:00": 26}
 
 # class_type, class_days, class_startTime, class_endTime = [], [], [], []
-course_name, course_number = "", ""
+course_name, course_number, academicTerm = "", "", 0
 lecture_days, lecture_startTime, lecture_endTime, lecture_courseNames = [], [], [], []
 firstSchedule_days, firstSchedule_startTime, firstSchedule_endTime = [], [], []
 secondSchedule_days, secondSchedule_startTime, secondSchedule_endTime = [], [], []
@@ -63,13 +63,15 @@ def parser():
     soup = BeautifulSoup(response.text, "html.parser")
     section1 = soup.findAll('tr', class_='section1')
     section2 = soup.findAll('tr', class_='section2')
+    section1 = section1+section2
 
     for i in range(len(section1)):
         section1_tdList = section1[i].findAll('td')
         if section1_tdList[2].getText() == "Lecture":
-            lecture_days.append(section1_tdList[5].getText().split())
-            lecture_startTime.append(section1_tdList[6].getText())
-            lecture_endTime.append(section1_tdList[7].getText())
+            if section1_tdList[3].getText() == academicTerm:
+                lecture_days.append(section1_tdList[5].getText().split())
+                lecture_startTime.append(section1_tdList[6].getText())
+                lecture_endTime.append(section1_tdList[7].getText())
 
     global secondSchedule_days, secondSchedule_startTime, secondSchedule_endTime
     secondSchedule_days = lecture_days
@@ -87,9 +89,11 @@ def index():
 
 @app.route("/table", methods=["POST"])
 def table():
-    global course_name, course_number
+    global course_name, course_number, academicTerm
     course_name = request.form.get("course_name")
     course_number = request.form.get("course_number")
+    academicTerm = request.form.get("academicTerm")
+    print("academicTerm: ", academicTerm)
     parser()
     filterOut()
     return jsonify({"firstSchedule_days": firstSchedule_days, "firstSchedule_startTime": firstSchedule_startTime,
