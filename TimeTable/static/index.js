@@ -1,67 +1,15 @@
-var timetable_number;
+let map = new Map(), reverseMap = new Map();
+var firstSchedule_days = [], firstSchedule_startTime = [], firstSchedule_endTime = [], lecture_courseNames = [];
+var timetable_number, timeDifference, table_1, table_2;
+var course_name = "", course_number = "";
 
-let map = new Map();
-map.set("9:00", 0);
-map.set("9:30", 1);
-map.set("10:00", 2);
-map.set("10:30", 3);
-map.set("11:00", 4);
-map.set("11:30", 5);
-map.set("12:00", 6);
-map.set("12:30", 7);
-map.set("13:00", 8);
-map.set("13:30", 9);
-map.set("14:00", 10);
-map.set("14:30", 11);
-map.set("15:00", 12);
-map.set("15:30", 13);
-map.set("16:00", 14);
-map.set("16:30", 15);
-map.set("17:00", 16);
-map.set("17:30", 17);
-map.set("18:00", 18);
-map.set("18:30", 19);
-map.set("19:00", 20);
-map.set("19:30", 21);
-map.set("20:00", 22);
-
-let reverseMap = new Map();
-reverseMap.set(0, "9:00");
-reverseMap.set(1, "9:30");
-reverseMap.set(2, "10:00");
-reverseMap.set(3, "10:30");
-reverseMap.set(4, "11:00");
-reverseMap.set(5, "11:30");
-reverseMap.set(6, "12:00");
-reverseMap.set(7, "12:30");
-reverseMap.set(8, "13:00");
-reverseMap.set(9, "13:30");
-reverseMap.set(10, "14:00");
-reverseMap.set(11, "14:30");
-reverseMap.set(12, "15:00");
-reverseMap.set(13, "15:30");
-reverseMap.set(14, "16:00");
-reverseMap.set(15, "16:30");
-reverseMap.set(16, "17:00");
-reverseMap.set(17, "17:30");
-reverseMap.set(18, "18:00");
-reverseMap.set(19, "18:30");
-reverseMap.set(20, "19:00");
-reverseMap.set(21, "19:30");
-reverseMap.set(22, "20:00")
-
-var firstSchedule_days = [];
-var firstSchedule_startTime = [];
-var firstSchedule_endTime = [];
-var lecture_courseNames = []
-
-var timeDifference;
-var baseCell;
-var removedElements = [];
-var table_1;
-var table_2;
-var course_name = "";
-var course_number = "";
+function setupMaps(){
+  var trList = document.getElementsByTagName("tr");
+  for (i = 1; i < trList.length; i++){
+    map.set(trList[i].id, i-1);
+    reverseMap.set(i-1, trList[i].id);
+  }
+}
 
 function color(){
   for (i = 0; i < firstSchedule_days[timetable_number].length; i++){
@@ -98,7 +46,6 @@ function decolor(){
   demoClass.remove(demoClass);
   var start_ = document.getElementById('start');
   table_1 = table_2.cloneNode(true);
-  console.log(table_1);
   start_.appendChild(table_1);
 }
 
@@ -123,6 +70,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
     timetable_number = 0
 
+    var li = document.createElement("li");
+    var inputValue = course_name + " " + course_number;
+    var t = document.createTextNode(inputValue);
+    li.appendChild(t);
+    document.getElementById("myUL").appendChild(li)
+
     request.onload = () => {
         // Extract JSON data from request
         const data = JSON.parse(request.responseText);
@@ -132,10 +85,13 @@ document.addEventListener('DOMContentLoaded', () => {
         firstSchedule_endTime = data.firstSchedule_endTime;
         lecture_courseNames = data.lecture_courseNames;
 
+        console.log(firstSchedule_days);
+        console.log(firstSchedule_startTime);
+        console.log(firstSchedule_endTime);
+
         var original_table = document.getElementById('table');
         table_1 = original_table.cloneNode(true);
         table_2 = original_table.cloneNode(true);
-        console.log(table_1);
     }
 
     const data = new FormData();
@@ -148,9 +104,9 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 });
 
-
 document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#submitCourses').onclick = () => {
+    setupMaps();
     color();
   };
 });
@@ -159,6 +115,14 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#next').onclick = () => {
     decolor();
     timetable_number++;
+    color();
+  };
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.querySelector('#previous').onclick = () => {
+    decolor();
+    timetable_number--;
     color();
   };
 });

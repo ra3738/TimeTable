@@ -24,7 +24,6 @@ def isThereConflict(i, j):
     return False
 
 def filterOut():
-
     global firstSchedule_days, firstSchedule_startTime, firstSchedule_endTime
     global secondSchedule_days, secondSchedule_startTime, secondSchedule_endTime
 
@@ -55,7 +54,6 @@ def filterOut():
     firstSchedule_startTime = temp_startTime
     firstSchedule_endTime = temp_endTime
 
-
 def parser():
     global lecture_days, lecture_startTime, lecture_endTime, lecture_courseNames
     lecture_days, lecture_startTime, lecture_endTime = [], [], []
@@ -78,14 +76,10 @@ def parser():
     secondSchedule_startTime = lecture_startTime
     secondSchedule_endTime = lecture_endTime
     lecture_courseNames.append(course_name+" "+course_number)
-    print("secondSchedule_days: ")
-    print(secondSchedule_days)
-    print("secondSchedule_startTime: ")
-    print(secondSchedule_startTime)
-    print("secondSchedule_endTime: ")
-    print(secondSchedule_endTime)
-    print(" ")
 
+    print(lecture_days)
+    print(lecture_startTime)
+    print(lecture_endTime)
 
 @app.route("/")
 def index():
@@ -100,4 +94,3 @@ def table():
     filterOut()
     return jsonify({"firstSchedule_days": firstSchedule_days, "firstSchedule_startTime": firstSchedule_startTime,
                     "firstSchedule_endTime": firstSchedule_endTime, "lecture_courseNames": lecture_courseNames})
-    # return jsonify({"lecture_days": lecture_days, "lecture_startTime": lecture_startTime, "lecture_endTime": lecture_endTime})

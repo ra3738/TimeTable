@@ -7,7 +7,7 @@
 
   <body>
     <div id="start"></div>
-    <table align="center" id="table">
+    <table align="right" id="table">
       <tr>
         <th>Time</th>
         <th>Monday</th>
@@ -15,6 +15,22 @@
         <th>Wednesday</th>
         <th>Thursday</th>
         <th>Friday</th>
+      </tr>
+      <tr id="8:00">
+        <td>8:00</td>
+        <td class="classes Mon"></td>
+        <td class="classes Tue"></td>
+        <td class="classes Wed"></td>
+        <td class="classes Thu"></td>
+        <td class="classes Fri"></td>
+      </tr>
+      <tr id="8:30">
+        <td>8:30</td>
+        <td class="classes Mon"></td>
+        <td class="classes Tue"></td>
+        <td class="classes Wed"></td>
+        <td class="classes Thu"></td>
+        <td class="classes Fri"></td>
       </tr>
       <tr id="9:00">
         <td>9:00</td>
@@ -192,31 +208,48 @@
         <td class="classes Thu"></td>
         <td class="classes Fri"></td>
       </tr>
-      <!-- <tr id="20:00">
-        <td>7:00</td>
+      <tr id="20:00">
+        <td>8:00</td>
         <td class="classes Mon"></td>
         <td class="classes Tue"></td>
         <td class="classes Wed"></td>
         <td class="classes Thu"></td>
         <td class="classes Fri"></td>
-      </tr> -->
-
+      </tr>
+      <tr id="20:30">
+        <td>8:30</td>
+        <td class="classes Mon"></td>
+        <td class="classes Tue"></td>
+        <td class="classes Wed"></td>
+        <td class="classes Thu"></td>
+        <td class="classes Fri"></td>
+      </tr>
+      <tr id="21:00">
+        <td>9:00</td>
+        <td class="classes Mon"></td>
+        <td class="classes Tue"></td>
+        <td class="classes Wed"></td>
+        <td class="classes Thu"></td>
+        <td class="classes Fri"></td>
+      </tr>
     </table>
     <br>
     <!-- <form action="{{ url_for('table') }}" method="post"> -->
-    <form id="form" >
+    <form id="form">
+      <b>Adding Courses</b>
+      <br>
       <input value="CPSC" id="course_name" name="course_name" autocomplete="off" autofocus placeholder="Course Name e.g CPSC" type="text">
       <input id="course_number" name="course_number" autocomplete="off" autofocus placeholder="Course No. e.g 101" type="text">
       <input type="submit" value="Add">
     </form>
-
     <button id ="submitCourses">Submit</button>
-    <button id="next" type="button" style="float: right;">Next</button>
-    <button id="previous" type="button" style="float: right;">Previous</button>
+    <!-- <button id="next" type="button" style="float: right;">Next</button>
+    <button id="previous" type="button" style="float: right;">Previous</button> -->
+    <br><br>
+    <button id="previous" type="button">Previous</button>
+    <button id="next" type="button">Next</button>
     <ul id="myUL">
-
     </ul>
-
 
   </body>
 </html>
