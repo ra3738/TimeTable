@@ -123,6 +123,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#next').onclick = () => {
     decolor();
     timetable_number++;
+    var inText = ""
     color();
   };
 });
