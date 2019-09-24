@@ -123,7 +123,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.querySelector('#next').onclick = () => {
     decolor();
     timetable_number++;
-    var inText = ""
     color();
   };
 });
@@ -135,3 +134,13 @@ document.addEventListener('DOMContentLoaded', () => {
     color();
   };
 });
+
+function myFunction(x) {
+  var buttonColor = document.getElementById(x);
+  var theCSSprop = window.getComputedStyle(buttonColor, null).getPropertyValue("background-color");
+  if (theCSSprop === "rgb(76, 175, 80)"){
+    document.getElementById(x).style.backgroundColor = "red";
+  } else {
+    document.getElementById(x).style.backgroundColor = "rgb(76, 175, 80)";
+  }
+}
